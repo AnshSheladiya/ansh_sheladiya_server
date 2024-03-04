@@ -1,14 +1,14 @@
 // api/cron-logs.js
 
 import CronLog from '@/models/CronLog';
-import { connectToDatabase } from '@/utils/db';
+import { dbConnect } from '@/utils/dbConnect';
 
 import cors from "micro-cors";
 const corsMiddleware = cors();
 export default async function handler(req, res) {
   await corsMiddleware(req, res);
   // Ensure database connection
-  await connectToDatabase();
+  await dbConnect();
 
   try {
     // Fetch all menu items from the database

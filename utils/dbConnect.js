@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 
 let isConnected = false;
 
-export const connectToDatabase = async () => {
+export const dbConnect = async () => {
   if (isConnected) {
     console.log("Using existing database connection");
     return;

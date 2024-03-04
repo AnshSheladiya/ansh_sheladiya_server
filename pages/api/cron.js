@@ -1,6 +1,6 @@
 import cron from "node-cron";
 import axios from "axios";
-import { connectToDatabase } from "@/utils/db";
+import { connectToDatabase } from "@/utils/dbConnect";
 import axiosInstance from "@/lib/axios";
 import CronLog from "@/models/CronLog";
 import Country from "@/models/Country";
