@@ -1,0 +1,46 @@
+{
+  "name": "all_in_one_nodejs",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.15.11",
+    "axios": "^1.6.7",
+    "buffer": "^6.0.3",
+    "cheerio": "^1.0.0-rc.12",
+    "downloadjs": "^1.4.7",
+    "file-saver": "^2.0.5",
+    "gray-matter": "^4.0.3",
+    "http-proxy-middleware": "^2.0.6",
+    "isomorphic-fetch": "^3.0.0",
+    "masonry-layout": "^4.2.2",
+    "micro-cors": "^0.1.1",
+    "mongoose": "^8.2.0",
+    "next": "14.1.0",
+    "next-mdx-remote": "^4.4.1",
+    "node-cron": "^3.0.3",
+    "playwright": "^1.42.0",
+    "puppeteer": "^22.3.0",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-icons": "^5.0.1",
+    "react-markdown": "^9.0.1",
+    "react-responsive-masonry": "^2.2.0",
+    "react-spinners": "^0.13.8",
+    "remark": "^15.0.1",
+    "remark-html": "^16.0.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.0.1",
+    "postcss": "^8",
+    "raw-loader": "^4.0.2",
+    "tailwindcss": "^3.3.0"
+  }
+}

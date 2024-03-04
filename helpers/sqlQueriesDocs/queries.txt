@@ -1,0 +1,175 @@
+/**
+ * File Name: sqlQueries.txt
+ */
+
+
+-- Create DATABASE
+CREATE DATABASE mydatabase;
+
+-- Selecting a Database
+USE mydatabase;
+
+-- Create Schema
+CREATE SCHEMA YourSchemaName;
+
+-- Use the Created Schema
+USE YourSchemaName;
+
+-- Create Customers Table
+CREATE TABLE customers (
+    customer_id INT PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    email VARCHAR(100),
+    phone_number VARCHAR(15),
+    registration_date DATE
+);
+
+-- Insert Data into Customers Table
+INSERT INTO customers (customer_id, first_name, last_name, email, phone_number, registration_date) VALUES
+(1, 'John', 'Doe', 'john@example.com', '123-456-7890', '2023-01-15'),
+(2, 'Jane', 'Smith', 'jane@example.com', '987-654-3210', '2023-02-20'),
+(3, 'Michael', 'Johnson', 'michael@example.com', '555-555-5555', '2023-03-10');
+
+-- Selecting Data from Customers Table
+SELECT * FROM customers;
+
+-- Filtering Data with WHERE Clause
+SELECT * FROM customers WHERE registration_date > '2023-02-01';
+
+-- Updating Data in Customers Table
+UPDATE customers SET phone_number = '111-222-3333' WHERE customer_id = 1;
+
+-- Deleting Data from Customers Table
+DELETE FROM customers WHERE customer_id = 3;
+
+-- Sorting Data
+SELECT * FROM customers ORDER BY last_name ASC;
+
+-- Counting Rows
+SELECT COUNT(*) FROM customers;
+
+-- Aggregating Data
+SELECT YEAR(registration_date) AS registration_year, COUNT(*) AS registration_count
+FROM customers
+GROUP BY YEAR(registration_date);
+
+-- Joining Tables (Assuming you have another table orders with customer_id and order_amount)
+SELECT customers.first_name, customers.last_name, SUM(orders.order_amount) AS total_spent
+FROM customers
+JOIN orders ON customers.customer_id = orders.customer_id
+GROUP BY customers.customer_id;
+
+-- Subqueries
+SELECT first_name, last_name
+FROM customers
+WHERE customer_id IN (SELECT customer_id FROM orders WHERE order_amount > 100);
+
+-- Using Aliases
+SELECT first_name AS "First Name", last_name AS "Last Name"
+FROM customers;
+
+-- Adding Indexes
+CREATE INDEX idx_last_name ON customers (last_name);
+
+-- Modifying Table Structure
+ALTER TABLE customers ADD COLUMN address VARCHAR(200);
+
+-- Dropping Table
+DROP TABLE customers;
+
+-- Dropping Schema
+DROP SCHEMA YourSchemaName;
+
+-- Using GROUP BY with HAVING
+SELECT department, AVG(salary) AS avg_salary
+FROM employees
+GROUP BY department
+HAVING avg_salary > 50000;
+
+-- Using INNER JOIN
+SELECT orders.order_id, customers.first_name, customers.last_name
+FROM orders
+INNER JOIN customers ON orders.customer_id = customers.customer_id;
+
+-- Using LEFT JOIN
+SELECT customers.first_name, orders.order_amount
+FROM customers
+LEFT JOIN orders ON customers.customer_id = orders.customer_id;
+
+-- Using RIGHT JOIN
+SELECT orders.order_id, orders.order_amount, customers.first_name
+FROM orders
+RIGHT JOIN customers ON orders.customer_id = customers.customer_id;
+
+-- Using Self-Join
+SELECT e1.employee_id, e1.first_name AS employee, e2.first_name AS manager
+FROM employees e1
+LEFT JOIN employees e2 ON e1.manager_id = e2.employee_id;
+
+-- Using UNION ALL
+SELECT first_name, last_name FROM customers
+UNION ALL
+SELECT first_name, last_name FROM employees;
+
+-- Using CROSS JOIN
+SELECT customers.first_name, employees.first_name
+FROM customers
+CROSS JOIN employees;
+
+-- Using CASE with Aggregation
+SELECT department,
+    SUM(CASE WHEN salary > 50000 THEN 1 ELSE 0 END) AS high_salary_count,
+    SUM(CASE WHEN salary <= 50000 THEN 1 ELSE 0 END) AS low_salary_count
+FROM employees
+GROUP BY department;
+
+-- Using GROUP_CONCAT with DISTINCT
+SELECT department, GROUP_CONCAT(DISTINCT salary ORDER BY salary ASC) AS salaries
+FROM employees
+GROUP BY department;
+
+-- Using Subqueries with JOIN
+SELECT customers.first_name, customers.last_name, orders.order_amount
+FROM customers
+JOIN (SELECT order_id, order_amount, customer_id FROM orders WHERE order_amount > 100) AS orders
+ON customers.customer_id = orders.customer_id;
+
+-- Using Common Table Expressions (CTEs)
+WITH high_salary_employees AS (
+    SELECT employee_id, first_name, salary
+    FROM employees
+    WHERE salary > 60000
+)
+SELECT * FROM high_salary_employees;
+
+-- Using Window Functions
+SELECT department, first_name, salary,
+    ROW_NUMBER() OVER(PARTITION BY department ORDER BY salary DESC) AS rank
+FROM employees;
+
+-- Using Stored Functions
+DELIMITER //
+CREATE FUNCTION CalculateTotalOrders(customer_id INT) RETURNS INT
+BEGIN
+    DECLARE total_orders INT;
+    SELECT COUNT(*) INTO total_orders FROM orders WHERE orders.customer_id = customer_id;
+    RETURN total_orders;
+END //
+DELIMITER ;
+
+-- Calling the Stored Function
+SELECT customer_id, CalculateTotalOrders(customer_id) AS total_orders
+FROM customers;
+
+-- Using Stored Procedures with OUT Parameters
+DELIMITER //
+CREATE PROCEDURE GetEmployeeDetails(IN emp_id INT, OUT emp_name VARCHAR(50), OUT emp_salary DECIMAL(10, 2))
+BEGIN
+    SELECT first_name, salary INTO emp_name, emp_salary FROM employees WHERE employee_id = emp_id;
+END //
+DELIMITER ;
+
+-- Calling the Stored Procedure with OUT Parameters
+CALL GetEmployeeDetails(1, @employee_name, @employee_salary);
+SELECT @employee_name AS employee_name, @employee_salary AS employee_salary;
