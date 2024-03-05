@@ -1,6 +1,5 @@
 import axios from 'axios';
 import cheerio from 'cheerio';
-import Question from '@/models/Question'; // Assuming this is the correct path to your model
 import { dbConnect } from '@/utils/dbConnect'; // Assuming this is the correct path to your dbConnect function
 
 export default async (req, res) => {
@@ -33,24 +32,7 @@ export default async (req, res) => {
 
         // Extract image URL
         const imageURL = $(element).find('.entry-content p a').attr('href');
-
-        // Create a new Question object
-        const question = new Question({
-          title,
-          options,
-          correctAnswer,
-          imageURL,
-          language: 'gujarati', // Assuming language is 'gujarati'
-        });
-
-        // Save the question to the database using promises
-        question.save()
-          .then(savedQuestion => {
-            console.log('Question saved:', savedQuestion);
-          })
-          .catch(err => {
-            console.error('Error saving question:', err);
-          });
+    
       });
     }
 
