@@ -8,7 +8,7 @@ export default async (req, res) => {
     const details = [];
 
     // Loop through pages 1 to 20
-    for (let page = 1; page <= 20; page++) {
+    for (let page = 1; page <= 10; page++) {
       // Fetch HTML content from the website
       const { data } = await axios.get(`https://licencetest.in/question-bank/category/${lang}/page/${page}/`);
 
