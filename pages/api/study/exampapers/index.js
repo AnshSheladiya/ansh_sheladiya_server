@@ -2,9 +2,21 @@
 
 import { dbConnect } from "@/utils/dbConnect";
 import puppeteer from 'puppeteer';
+import GujaratBoardExamPapers from '@/models/GujaratBoardExamPapers'; // Import the Mongoose model
 
 export default async function handler(req, res) {
   try {
+    // Connect to the database
+    await dbConnect();
+
+    // Check if there are existing documents in the database
+    const existingDocuments = await GujaratBoardExamPapers.find();
+
+    // If there are existing documents, return them directly
+    if (existingDocuments.length > 1) {
+      return res.status(200).json(existingDocuments);
+    }
+
     // Launch a headless browser with Puppeteer
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
@@ -15,8 +27,6 @@ export default async function handler(req, res) {
     // Extract the options from the select list
     const options = await page.evaluate(() => {
       const select = document.getElementById('purpose');
-
-
       return Array.from(select.options).map(option => option.value);
     });
 
@@ -36,6 +46,9 @@ export default async function handler(req, res) {
       });
 
       allDetails.push({ standard: option, details });
+
+      // Save data into the database
+      await GujaratBoardExamPapers.create({ standard: option, details });
     }
 
     // Close the browser

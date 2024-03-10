@@ -1,6 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.input-field {
+  @apply rounded border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 px-4 py-2 mr-2;
+}
+
+.btn-add-idea {
+  @apply bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded;
+}
+.priority-box {
+  font-size: 12px;
+  margin-top: 4px;
+  display: inline-block;
+}
+
 /*
 :root {
   --foreground-rgb: 0, 0, 0;
