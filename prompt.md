@@ -17,7 +17,6 @@ export default async function handler(req, res) {
 Crete a api for scrape data from this site
 
 site-
-
 give me json data of details only list from this html of that page IN Nodejs
 
 NextJS API code format
